@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TransRouteModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ArchiveNo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TransRoute.dbo.CustomerAccounnt' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="CustomerAccounnt">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="DateCreated" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="AccountName" Type="nvarchar" MaxLength="50" />
+          <Property Name="AccountNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="AccountType" Type="nvarchar" MaxLength="50" />
+          <Property Name="Bvn" Type="nvarchar" MaxLength="50" />
+          <Property Name="CustomerProfileId" Type="bigint" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CustomerProfile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Bvn" Type="nvarchar" MaxLength="20" />
+          <Property Name="Dob" Type="datetime" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="10" />
+          <Property Name="PhoneNo" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="CorporateName" Type="nvarchar" MaxLength="50" />
+          <Property Name="RcBnNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="Certificate" Type="nvarchar(max)" />
+          <Property Name="DateCreated" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_CustomerAccounnt_CustomerProfile">
+          <End Role="CustomerProfile" Type="Self.CustomerProfile" Multiplicity="0..1" />
+          <End Role="CustomerAccounnt" Type="Self.CustomerAccounnt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerProfile">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerAccounnt">
+              <PropertyRef Name="CustomerProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TransRouteModelStoreContainer">
+          <EntitySet Name="ArchiveNo" EntityType="Self.ArchiveNo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerProfile" EntityType="Self.CustomerProfile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerAccounnt" EntityType="Self.CustomerAccounnt" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CustomerAccounnt].[Id] AS [Id], 
+    [CustomerAccounnt].[AccountName] AS [AccountName], 
+    [CustomerAccounnt].[AccountNo] AS [AccountNo], 
+    [CustomerAccounnt].[AccountType] AS [AccountType], 
+    [CustomerAccounnt].[Bvn] AS [Bvn], 
+    [CustomerAccounnt].[CustomerProfileId] AS [CustomerProfileId], 
+    [CustomerAccounnt].[DateCreated] AS [DateCreated]
+    FROM [dbo].[CustomerAccounnt] AS [CustomerAccounnt]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_CustomerAccounnt_CustomerProfile" Association="Self.FK_CustomerAccounnt_CustomerProfile">
+            <End Role="CustomerProfile" EntitySet="CustomerProfile" />
+            <End Role="CustomerAccounnt" EntitySet="CustomerAccounnt" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TransRouteModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ArchiveNo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="CustomerProfile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Bvn" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Dob" Type="DateTime" Precision="3" />
+          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNo" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CorporateName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RcBnNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Certificate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CustomerAccounnts" Relationship="Self.FK_CustomerAccounnt_CustomerProfile" FromRole="CustomerProfile" ToRole="CustomerAccounnt" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="CustomerAccounnt">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="DateCreated" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="AccountName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AccountNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AccountType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Bvn" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerProfileId" Type="Int64" />
+          <NavigationProperty Name="CustomerProfile" Relationship="Self.FK_CustomerAccounnt_CustomerProfile" FromRole="CustomerAccounnt" ToRole="CustomerProfile" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <Association Name="FK_CustomerAccounnt_CustomerProfile">
+          <End Role="CustomerProfile" Type="Self.CustomerProfile" Multiplicity="0..1" />
+          <End Role="CustomerAccounnt" Type="Self.CustomerAccounnt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerProfile">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerAccounnt">
+              <PropertyRef Name="CustomerProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TransRouteEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ArchiveNoes" EntityType="Self.ArchiveNo" />
+          <EntitySet Name="CustomerProfiles" EntityType="Self.CustomerProfile" />
+          <EntitySet Name="CustomerAccounnts" EntityType="Self.CustomerAccounnt" />
+          <AssociationSet Name="FK_CustomerAccounnt_CustomerProfile" Association="Self.FK_CustomerAccounnt_CustomerProfile">
+            <End Role="CustomerProfile" EntitySet="CustomerProfiles" />
+            <End Role="CustomerAccounnt" EntitySet="CustomerAccounnts" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TransRouteModelStoreContainer" CdmEntityContainer="TransRouteEntities">
+          <EntitySetMapping Name="ArchiveNoes">
+            <EntityTypeMapping TypeName="TransRouteModel.ArchiveNo">
+              <MappingFragment StoreEntitySet="ArchiveNo">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerProfiles">
+            <EntityTypeMapping TypeName="TransRouteModel.CustomerProfile">
+              <MappingFragment StoreEntitySet="CustomerProfile">
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Bvn" ColumnName="Bvn" />
+                <ScalarProperty Name="Dob" ColumnName="Dob" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
+                <ScalarProperty Name="CorporateName" ColumnName="CorporateName" />
+                <ScalarProperty Name="RcBnNo" ColumnName="RcBnNo" />
+                <ScalarProperty Name="Certificate" ColumnName="Certificate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerAccounnts">
+            <EntityTypeMapping TypeName="TransRouteModel.CustomerAccounnt">
+              <MappingFragment StoreEntitySet="CustomerAccounnt">
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+                <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
+                <ScalarProperty Name="AccountType" ColumnName="AccountType" />
+                <ScalarProperty Name="Bvn" ColumnName="Bvn" />
+                <ScalarProperty Name="CustomerProfileId" ColumnName="CustomerProfileId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
