@@ -31,7 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Repository.Pattern.Ef6\bin\Debug\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -44,8 +49,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HttpService.cs" />
+    <Compile Include="CustomerProfileService.cs" />
     <Compile Include="ArchiveNoService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="HttpUtil\FileContent.cs" />
+    <Compile Include="HttpUtil\HttpRequestBuilder.cs" />
+    <Compile Include="HttpUtil\HttpRequestFactory.cs" />
+    <Compile Include="HttpUtil\HttpResponseExtensions.cs" />
+    <Compile Include="HttpUtil\IHttpRequestBuilder.cs" />
+    <Compile Include="HttpUtil\JsonContent.cs" />
+    <Compile Include="HttpUtil\PatchContent.cs" />
+    <Compile Include="HttpUtil\RavePaymentDataEncryption.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Repository.Pattern.Ef6\Repository.Pattern.Ef6.csproj">
@@ -59,6 +74,10 @@
     <ProjectReference Include="..\Service.Pattern\Service.Pattern.csproj">
       <Project>{86F86650-EE3C-4372-8FEC-40C2FE015022}</Project>
       <Name>Service.Pattern</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TransRoute.Common\TransRoute.Common.csproj">
+      <Project>{A61076E9-A760-4F8F-896C-6EB92CB7A4A5}</Project>
+      <Name>TransRoute.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\TransRoute.Entities\TransRoute.Entities.csproj">
       <Project>{8F5ED449-C59D-48D6-9115-665AE5C20253}</Project>

@@ -49,7 +49,7 @@
     <Compile Include="Queries\CustomerProfileQuery.cs" />
     <Compile Include="Queries\CustomerSalesQuery.cs" />
     <Compile Include="Queries\ArchiveNoQuery.cs" />
-    <Compile Include="Repositories\CustomerRepository.cs" />
+    <Compile Include="Repositories\ArchiveNoRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Repository.Pattern.Ef6\Repository.Pattern.Ef6.csproj">

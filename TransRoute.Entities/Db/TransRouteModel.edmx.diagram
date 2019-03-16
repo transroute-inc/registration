@@ -7,8 +7,8 @@
       <Diagram DiagramId="70e3c12403e34dbfbb499dcb904adbd4" Name="Diagram1">
         <EntityTypeShape EntityType="TransRouteModel.ArchiveNo" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TransRouteModel.CustomerProfile" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="TransRouteModel.CustomerAccounnt" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
-        <AssociationConnector Association="TransRouteModel.FK_CustomerAccounnt_CustomerProfile" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="TransRouteModel.CustomerAccounnt" Width="1.5" PointX="3" PointY="1.25" />
+        <AssociationConnector Association="TransRouteModel.FK_CustomerAccounnt_CustomerProfile" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

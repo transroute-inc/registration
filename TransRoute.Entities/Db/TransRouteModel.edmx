@@ -13,14 +13,11 @@
           <Property Name="Phone" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="DateCreated" Type="datetime" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TransRoute.dbo.CustomerAccounnt' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="CustomerAccounnt">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="DateCreated" />
           </Key>
-          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AccountName" Type="nvarchar" MaxLength="50" />
           <Property Name="AccountNo" Type="nvarchar" MaxLength="50" />
           <Property Name="AccountType" Type="nvarchar" MaxLength="50" />
@@ -56,18 +53,8 @@ warning 6002: The table/view 'TransRoute.dbo.CustomerAccounnt' does not have a p
         </Association>
         <EntityContainer Name="TransRouteModelStoreContainer">
           <EntitySet Name="ArchiveNo" EntityType="Self.ArchiveNo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerAccounnt" EntityType="Self.CustomerAccounnt" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CustomerProfile" EntityType="Self.CustomerProfile" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="CustomerAccounnt" EntityType="Self.CustomerAccounnt" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [CustomerAccounnt].[Id] AS [Id], 
-    [CustomerAccounnt].[AccountName] AS [AccountName], 
-    [CustomerAccounnt].[AccountNo] AS [AccountNo], 
-    [CustomerAccounnt].[AccountType] AS [AccountType], 
-    [CustomerAccounnt].[Bvn] AS [Bvn], 
-    [CustomerAccounnt].[CustomerProfileId] AS [CustomerProfileId], 
-    [CustomerAccounnt].[DateCreated] AS [DateCreated]
-    FROM [dbo].[CustomerAccounnt] AS [CustomerAccounnt]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_CustomerAccounnt_CustomerProfile" Association="Self.FK_CustomerAccounnt_CustomerProfile">
             <End Role="CustomerProfile" EntitySet="CustomerProfile" />
             <End Role="CustomerAccounnt" EntitySet="CustomerAccounnt" />
@@ -97,26 +84,34 @@ warning 6002: The table/view 'TransRoute.dbo.CustomerAccounnt' does not have a p
           <Property Name="CorporateName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="RcBnNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Certificate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="CustomerAccounnts" Relationship="Self.FK_CustomerAccounnt_CustomerProfile" FromRole="CustomerProfile" ToRole="CustomerAccounnt" />
           <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="CustomerAccounnts" Relationship="TransRouteModel.FK_CustomerAccounnt_CustomerProfile" FromRole="CustomerProfile" ToRole="CustomerAccounnt" />
         </EntityType>
+        <EntityContainer Name="TransRouteEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ArchiveNoes" EntityType="Self.ArchiveNo" />
+          <EntitySet Name="CustomerProfiles" EntityType="Self.CustomerProfile" />
+          <EntitySet Name="CustomerAccounnts" EntityType="TransRouteModel.CustomerAccounnt" />
+          <AssociationSet Name="FK_CustomerAccounnt_CustomerProfile" Association="TransRouteModel.FK_CustomerAccounnt_CustomerProfile">
+            <End Role="CustomerProfile" EntitySet="CustomerProfiles" />
+            <End Role="CustomerAccounnt" EntitySet="CustomerAccounnts" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="CustomerAccounnt">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="DateCreated" />
           </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="AccountName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="AccountNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="AccountType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Bvn" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CustomerProfileId" Type="Int64" />
-          <NavigationProperty Name="CustomerProfile" Relationship="Self.FK_CustomerAccounnt_CustomerProfile" FromRole="CustomerAccounnt" ToRole="CustomerProfile" />
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="CustomerProfile" Relationship="TransRouteModel.FK_CustomerAccounnt_CustomerProfile" FromRole="CustomerAccounnt" ToRole="CustomerProfile" />
         </EntityType>
         <Association Name="FK_CustomerAccounnt_CustomerProfile">
-          <End Role="CustomerProfile" Type="Self.CustomerProfile" Multiplicity="0..1" />
-          <End Role="CustomerAccounnt" Type="Self.CustomerAccounnt" Multiplicity="*" />
+          <End Type="TransRouteModel.CustomerProfile" Role="CustomerProfile" Multiplicity="0..1" />
+          <End Type="TransRouteModel.CustomerAccounnt" Role="CustomerAccounnt" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="CustomerProfile">
               <PropertyRef Name="Id" />
@@ -126,15 +121,6 @@ warning 6002: The table/view 'TransRoute.dbo.CustomerAccounnt' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="TransRouteEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="ArchiveNoes" EntityType="Self.ArchiveNo" />
-          <EntitySet Name="CustomerProfiles" EntityType="Self.CustomerProfile" />
-          <EntitySet Name="CustomerAccounnts" EntityType="Self.CustomerAccounnt" />
-          <AssociationSet Name="FK_CustomerAccounnt_CustomerProfile" Association="Self.FK_CustomerAccounnt_CustomerProfile">
-            <End Role="CustomerProfile" EntitySet="CustomerProfiles" />
-            <End Role="CustomerAccounnt" EntitySet="CustomerAccounnts" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -169,12 +155,12 @@ warning 6002: The table/view 'TransRoute.dbo.CustomerAccounnt' does not have a p
             <EntityTypeMapping TypeName="TransRouteModel.CustomerAccounnt">
               <MappingFragment StoreEntitySet="CustomerAccounnt">
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
-                <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
-                <ScalarProperty Name="AccountType" ColumnName="AccountType" />
-                <ScalarProperty Name="Bvn" ColumnName="Bvn" />
                 <ScalarProperty Name="CustomerProfileId" ColumnName="CustomerProfileId" />
+                <ScalarProperty Name="Bvn" ColumnName="Bvn" />
+                <ScalarProperty Name="AccountType" ColumnName="AccountType" />
+                <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
+                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -7,12 +7,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Repository.Pattern.Ef6;
+
 namespace TransRoute.Entities.Db
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class CustomerProfile
+    public partial class CustomerProfile: Entity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CustomerProfile()

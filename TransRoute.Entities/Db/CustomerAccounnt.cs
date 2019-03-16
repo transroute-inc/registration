@@ -7,12 +7,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Repository.Pattern.Ef6;
+
 namespace TransRoute.Entities.Db
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class CustomerAccounnt
+    public partial class CustomerAccounnt: Entity
     {
         public long Id { get; set; }
         public string AccountName { get; set; }
